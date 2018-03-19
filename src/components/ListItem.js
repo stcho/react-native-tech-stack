@@ -1,17 +1,37 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableWithoutFeedback, View } from 'react-native';
+import { connect } from 'react-redux';
 import { CardSection } from './common';
+import * as actions from '../actions';
  
 class ListItem extends Component {
+  renderDescription() {  	
+  	const { item, selectedLibraryId } = this.props;
+
+  	if (item.id === selectedLibraryId) {
+  		return (
+  			<Text>{item.description}</Text>
+  		);
+  	}
+  }
+
   render() {
   	const { titleStyle } = styles;
+  	const { id, title} = this.props.item;
 
     return (
-      <CardSection>
-        <Text style={titleStyle}>
-        	{this.props.item.title}
-        </Text>
-      </CardSection>
+    	<TouchableWithoutFeedback
+    		onPress={() => this.props.selectLibrary(id)}
+    	>
+    		<View>
+    			<CardSection>
+		        <Text style={titleStyle}>
+		        	{title}
+		        </Text>
+		      </CardSection>
+		      {this.renderDescription()}
+    		</View>
+    	</TouchableWithoutFeedback>
     );
   }
 }
@@ -22,6 +42,10 @@ const styles = {
 		paddingLeft: 15,
 
 	}
-}
+};
 
-export default ListItem;
+const mapStateToProps = state => {
+	return { selectedLibraryId: state.selectedLibraryId }
+};
+
+export default connect(mapStateToProps, actions)(ListItem);

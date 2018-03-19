@@ -8,6 +8,10 @@ class LibraryList extends Component {
   renderItem({ item }) {
     return <ListItem item={item} />;
   }
+
+  // renderItem = ({ item }) => (
+  //   <ListItem item={item} />
+  // );
  
   render() {
     return (
